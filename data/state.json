@@ -1,0 +1,158 @@
+{
+  "version": 2,
+  "settings": {
+    "fightWinner": 75,
+    "fightHouse": 15,
+    "fightFund": 10,
+    "groupWinner": 80,
+    "groupHouse": 20,
+    "championWinner": 85,
+    "championHouse": 15,
+    "entryFee": 20
+  },
+  "bracketSize": 8,
+  "fighters": [
+    {
+      "id": "f1",
+      "name": "Aela, a Caçadora",
+      "isBolg": false
+    },
+    {
+      "id": "f2",
+      "name": "Ragnar Punho de Ferro",
+      "isBolg": false
+    },
+    {
+      "id": "f3",
+      "name": "Sigrun da Neve",
+      "isBolg": false
+    },
+    {
+      "id": "f4",
+      "name": "Hrothgar, o Incansável",
+      "isBolg": false
+    },
+    {
+      "id": "f5",
+      "name": "Vilkas de Jorrvaskr",
+      "isBolg": false
+    },
+    {
+      "id": "f6",
+      "name": "Kora Lâmina Rubra",
+      "isBolg": false
+    },
+    {
+      "id": "f7",
+      "name": "Bjorna Martelo-Seco",
+      "isBolg": false
+    },
+    {
+      "id": "f8",
+      "name": "Malacath Filho do Ferro",
+      "isBolg": false
+    }
+  ],
+  "matches": [
+    {
+      "id": "r0m0",
+      "roundIndex": 0,
+      "round": "Quartas de final",
+      "label": "Luta 1",
+      "a": "f1",
+      "b": "f2",
+      "winner": null,
+      "status": "open",
+      "settlement": null
+    },
+    {
+      "id": "r0m1",
+      "roundIndex": 0,
+      "round": "Quartas de final",
+      "label": "Luta 2",
+      "a": "f3",
+      "b": "f4",
+      "winner": null,
+      "status": "open",
+      "settlement": null
+    },
+    {
+      "id": "r0m2",
+      "roundIndex": 0,
+      "round": "Quartas de final",
+      "label": "Luta 3",
+      "a": "f5",
+      "b": "f6",
+      "winner": null,
+      "status": "open",
+      "settlement": null
+    },
+    {
+      "id": "r0m3",
+      "roundIndex": 0,
+      "round": "Quartas de final",
+      "label": "Luta 4",
+      "a": "f7",
+      "b": "f8",
+      "winner": null,
+      "status": "open",
+      "settlement": null
+    },
+    {
+      "id": "r1m0",
+      "roundIndex": 1,
+      "round": "Semifinal",
+      "label": "SF 1",
+      "a": null,
+      "b": null,
+      "winner": null,
+      "status": "waiting",
+      "settlement": null
+    },
+    {
+      "id": "r1m1",
+      "roundIndex": 1,
+      "round": "Semifinal",
+      "label": "SF 2",
+      "a": null,
+      "b": null,
+      "winner": null,
+      "status": "waiting",
+      "settlement": null
+    },
+    {
+      "id": "r2m0",
+      "roundIndex": 2,
+      "round": "Grande final",
+      "label": "Final",
+      "a": null,
+      "b": null,
+      "winner": null,
+      "status": "waiting",
+      "settlement": null
+    }
+  ],
+  "bets": [],
+  "payouts": [],
+  "settlements": [],
+  "activity": [
+    {
+      "id": "activity-mv19jq22-chyg2",
+      "text": "Novo torneio criado; regras e escalação foram mantidas.",
+      "tone": "normal",
+      "at": 1791568365482
+    }
+  ],
+  "eventStatus": "open",
+  "flow": {
+    "shuffled": false,
+    "currentMatchId": null,
+    "nextMatchId": null,
+    "lastEvent": "idle",
+    "eventNonce": 0,
+    "lastWinnerId": null
+  },
+  "tab": "public",
+  "bolg": null,
+  "revision": 19
+}
