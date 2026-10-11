@@ -11,7 +11,7 @@ const ADMINS_FILE = path.join(DATA_DIR, 'admins.json');
 const INDEX_FILE = path.join(ROOT, 'index.html');
 fs.mkdirSync(DATA_DIR, { recursive: true });
 
-const defaultSettings = { fightWinner: 75, fightHouse: 15, fightFund: 10, groupWinner: 80, groupHouse: 20, championWinner: 85, championHouse: 15, entryFee: 20 };
+const defaultSettings = { fightWinner: 85, fightHouse: 5, fightFund: 10, groupWinner: 80, groupHouse: 20, championWinner: 85, championHouse: 15, entryFee: 20, houseBankroll: 2300, houseReserve: 1000, initialOdd: 1.75 };
 const names = ['Aela, a Caçadora','Ragnar Punho de Ferro','Sigrun da Neve','Hrothgar, o Incansável','Vilkas de Jorrvaskr','Kora Lâmina Rubra','Bjorna Martelo-Seco','Malacath Filho do Ferro','Eydis da Lua','Gunnar Quebra-Escudos','Freyja Cinza-Fria','Tormund Corvo Negro','Yrsa Olho de Gelo','Keld Martelo-Seco','Astrid Lâmina Pálida','Rurik Filho do Urso','Svala do Salto Alto','Hakon Marca-Ferro','Dagna Punho Rubro','Leif Lobo Cinzento','Ingrid da Montanha','Sten Quebra-Crânios','Runa Coração-de-Pedra','Ottar do Norte','Kari Lança-Longa','Einar Sangue-Frio','Thora Vento-Sul','Baldur Mão-de-Ferro','Liv da Geada','Njal Sem-Medo','Gerdur Espada-Negra','Sigurd da Cicatriz'];
 const uid = prefix => `${prefix}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2,8)}`;
 const roundNames = ['Rodada preliminar','32 avos de final','16 avos de final','Oitavas de final','Quartas de final','Semifinal','Grande final'];
@@ -66,11 +66,22 @@ function normalizeState(input) {
   if (!Array.isArray(input.bets) || !Array.isArray(input.payouts) || !Array.isArray(input.settlements)) return null;
   if (!input.settings || typeof input.settings !== 'object') return null;
   const settings = { ...defaultSettings, ...input.settings };
-  const numeric = ['fightWinner','fightHouse','fightFund','groupWinner','groupHouse','championWinner','championHouse','entryFee'];
-  if (numeric.some(key => !Number.isFinite(Number(settings[key])) || Number(settings[key]) < 0 || Number(settings[key]) > (key === 'entryFee' ? Number.MAX_SAFE_INTEGER : 100))) return null;
+  const numeric = ['fightWinner','fightHouse','fightFund','groupWinner','groupHouse','championWinner','championHouse','entryFee','houseBankroll','houseReserve','initialOdd'];
+  if (numeric.some(key => !Number.isFinite(Number(settings[key])) || Number(settings[key]) < 0 || Number(settings[key]) > (key === 'entryFee' || key === 'houseBankroll' || key === 'houseReserve' ? Number.MAX_SAFE_INTEGER : key === 'initialOdd' ? 20 : 100))) return null;
+  if (Number(settings.initialOdd) < 1.10) return null;
+  if (Number(settings.houseBankroll) < Number(settings.houseReserve)) return null;
+  if (Number(settings.fightHouse) < 1 || Number(settings.groupHouse) < 1 || Number(settings.championHouse) < 1) return null;
   if (Number(settings.fightWinner) + Number(settings.fightHouse) + Number(settings.fightFund) !== 100) return null;
   if (Number(settings.groupWinner) + Number(settings.groupHouse) !== 100) return null;
   if (Number(settings.championWinner) + Number(settings.championHouse) !== 100) return null;
+  for (const m of input.matches) {
+    const c = m && m.fixedOdds; if (!c) continue;
+    if (typeof c.enabled !== 'boolean') return null;
+    if (!c.enabled) continue;
+    const a = Number(c.oddA), b = Number(c.oddB), ms = Number(c.maxSide || 0);
+    if (!(a >= 1.05 && a <= 20 && b >= 1.05 && b <= 20) || !(ms >= 0)) return null;
+    if (1 / (1 / a + 1 / b) > Number(settings.fightWinner) / 100 + 1e-9) return null;
+  }
   return { ...input, version: 2, bracketSize: size, settings, activity: Array.isArray(input.activity) ? input.activity.slice(0, 100) : [], eventStatus: input.eventStatus === 'settled' ? 'settled' : 'open', flow: { shuffled: Boolean(input.flow?.shuffled), currentMatchId: input.flow?.currentMatchId || null, nextMatchId: input.flow?.nextMatchId || null, lastEvent: input.flow?.lastEvent || 'idle', eventNonce: Number(input.flow?.eventNonce || 0), lastWinnerId: input.flow?.lastWinnerId || null, lastRoundIndex: input.flow?.lastRoundIndex, lastMatchSequence: Number(input.flow?.lastMatchSequence || 0) }, bolg: input.bolg || null, tab: 'public' };
 }
 
@@ -107,7 +118,7 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8', 'Set-Cookie': `arena_session=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=86400${secure ? '; Secure' : ''}`, 'Cache-Control': 'no-store' }); return res.end(JSON.stringify({ ok: true, auth: authInfo({ headers: { cookie: `arena_session=${token}` } }) }));
     }
     if (url.pathname === '/api/logout' && req.method === 'POST') { if (!sameOrigin(req)) return json(res, 403, { error: 'Origem não autorizada.' }); const token = parseCookies(req).arena_session; if (token) sessions.delete(token); res.writeHead(200, { 'Content-Type': 'application/json', 'Set-Cookie': 'arena_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0' }); return res.end('{"ok":true}'); }
-    if (url.pathname === '/api/state' && req.method === 'POST') { if (!sameOrigin(req)) return json(res, 403, { error: 'Origem não autorizada.' }); if (!requireAdmin(req, res)) return; const input = await body(req); if (Number(input.revision) !== revision) return json(res, 409, { error: 'O estado mudou em outro painel. Atualize antes de salvar.', revision }); const nextState = normalizeState(input.state); if (!nextState) return json(res, 400, { error: 'Estado do torneio inválido ou incompleto.' }); revision += 1; nextState.revision = revision; saveState(nextState); state = nextState; return json(res, 200, { ok: true, state, revision }); }
+    if (url.pathname === '/api/state' && req.method === 'POST') { if (!sameOrigin(req)) return json(res, 403, { error: 'Origem não autorizada.' }); if (!requireAdmin(req, res)) return; const input = await body(req); if (Number(input.revision) !== revision) return json(res, 409, { error: 'O estado mudou em outro painel. Atualize antes de salvar.', revision }); const explicitNewTournament = input.allowDataReset === true && input.resetConfirmation === 'NOVO TORNEIO'; if (Array.isArray(input.state?.bets) && input.state.bets.length < state.bets.length && !explicitNewTournament) return json(res, 409, { error: 'Salvamento bloqueado: não é permitido remover apostas já registradas.', revision }); const fixedSig = (m) => JSON.stringify(m && m.fixedOdds && m.fixedOdds.enabled ? [true, Number(m.fixedOdds.oddA), Number(m.fixedOdds.oddB), Number(m.fixedOdds.maxSide || 0)] : [false]); const prevMatches = new Map(state.matches.map((m) => [m.id, m])); if (Array.isArray(input.state?.matches) && input.state.matches.some((m) => prevMatches.has(m.id) && fixedSig(m) !== fixedSig(prevMatches.get(m.id)) && state.bets.some((b) => b.type === 'fight' && b.matchId === m.id))) return json(res, 409, { error: 'Salvamento bloqueado: esta luta já tem apostas e o modo de odds não pode mudar.', revision }); const nextState = normalizeState(input.state); if (!nextState) return json(res, 400, { error: 'Estado do torneio inválido ou incompleto.' }); revision += 1; nextState.revision = revision; saveState(nextState); state = nextState; return json(res, 200, { ok: true, state, revision }); }
     if (url.pathname === '/api/health') return json(res, 200, { ok: true, persistentFile: STATE_FILE, admins: admins.length });
     if (url.pathname === '/robots.txt') { res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'public, max-age=3600' }); return res.end('User-agent: *\nDisallow: /admin\nDisallow: /api\n'); }
     if (url.pathname === '/index.html/admin' || url.pathname === '/index.html/admin/') { res.writeHead(302, { Location: '/admin', 'Cache-Control': 'no-store' }); return res.end(); }

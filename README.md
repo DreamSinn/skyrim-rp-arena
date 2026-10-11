@@ -82,3 +82,46 @@ Para uso real no Discord, hospede o projeto em um servidor persistente com volum
 - `server.js`: servidor HTTP, API, sessões e persistência.
 - `data/state.json`: estado do torneio compartilhado.
 - `data/admins.json`: administradores e hashes das senhas.
+
+## Modelo de odds e banca
+
+As apostas de luta agora usam **odds decimais dinâmicas**, calculadas conforme o dinheiro colocado em cada lutador. A odd é registrada no instante da aposta e não muda depois. O painel exibe o retorno total e o lucro estimado:
+
+- `retorno total = valor apostado × odd`
+- `lucro = retorno total − valor apostado`
+- A odd mínima é `1,10×` e a máxima é `20×`.
+- A banca da casa é configurada no campo **Banca atual da casa**.
+- Antes de aceitar uma aposta, o sistema calcula a maior exposição possível e recusa o registro se a banca não puder cobri-la.
+- Ao encerrar uma luta, a banca é atualizada pelo resultado líquido: arrecadação menos pagamentos e bolsa dos lutadores.
+- O painel **Apostas separadas por luta** mostra cada apostador, lutador escolhido, valor, odd travada e pagamento possível.
+
+
+## Banca da casa e reserva (regra atual)
+
+- Banca: 2.300 PO · Reserva mínima intocável: 1.000 PO · Banca operacional: 1.300 PO.
+- Uma aposta só é recusada se o **pior resultado possível da luta** exigir mais do que a banca operacional (a reserva nunca é usada).
+- Não existe mais a exigência de "lucro garantido nos dois lados": ela travava o mercado após 2 apostas. O pior resultado da casa aparece no painel e é limitado pela reserva.
+- O encerramento da luta continua bloqueado se a banca final ficasse abaixo da reserva (rede de segurança).
+
+## Lucro garantido da casa (regra atual)
+
+- Em toda luta, o total pago aos vencedores é limitado a `Luta · vencedores`% do pool (padrão 85%); a bolsa fica com `Luta · bolsa`% (10%). A casa sempre fica com pelo menos `Luta · casa`% do pool (padrão 5%).
+- As odds são fixadas na aposta e calculadas com folga abaixo desse teto (odd de luta equilibrada ≈ 1,50). Se a luta ficar muito desbalanceada e a soma prometida passar do teto, todos os vencedores são pagos proporcionalmente (pagamento em PO inteiros, arredondado para baixo).
+- Com isso a casa não perde mais em nenhuma luta e a banca só sobe. A reserva de 1.000 PO fica como segurança extra.
+- Os percentuais podem ser ajustados no painel (Luta · vencedores / casa / bolsa devem somar 100%).
+
+## Transparência pública e regras (atualização)
+
+- A tela pública agora mostra: apostas por luta (com a odd travada de cada apostador), **apostas nas chaves** (quem apostou em cada lado) e **palpites no campeão da grande final**. O admin tem os mesmos quadros.
+- O carimbo "atualizado há Xs" no topo da arena mostra se a tela está recebendo dados; se cair a conexão ele avisa.
+- As odds da luta atual só mudam com apostas **de luta** feitas naquela luta. Apostas de chave e de campeão não mexem nas odds. Sem apostas na luta, as odds ficam na abertura (≈ 1,50×) e a tela avisa isso.
+- "Regras vigentes" é montado a partir das configurações salvas, então acompanha qualquer mudança feita no painel.
+- Encerramento do torneio: pagamentos em PO inteiros; a sobra e os pagamentos não reclamados ficam com a casa e a **banca da casa é atualizada**. A casa precisa de pelo menos 1% em luta, chave e campeão (validado no painel e no servidor).
+
+## Odds fixas por luta (opcional)
+
+- No painel admin, seção **Odds fixas por luta**: para cada luta com os dois lutadores definidos dá para ligar/desligar odds fixas, definir a odd de cada lado e um limite de ouro por lutador. O padrão continua sendo odds dinâmicas com teto de pagamento (casa sempre ganha).
+- Em luta com odd fixa o retorno mostrado é pago por inteiro (sem corte). A casa só aceita apostas que a banca operacional (banca − reserva) cobre no pior resultado, e recusa apostas acima do limite por lutador.
+- Margem mínima: `1/oddA + 1/oddB` precisa ser pelo menos `1 / (vencedores%)` (≈ 1,176 com 85%), senão dá para apostar nos dois lados e lucrar. Painel e servidor recusam odds fora disso.
+- O modo só muda antes da primeira aposta da luta (painel e servidor bloqueiam depois), para não alterar o que já foi prometido.
+- Atenção: em odd fixa a casa **pode perder uma luta** se o lado mais apostado vencer. O limite por lutador e a reserva de 1.000 PO limitam o prejuízo.

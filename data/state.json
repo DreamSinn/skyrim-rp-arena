@@ -1,55 +1,58 @@
 {
   "version": 2,
   "settings": {
-    "fightWinner": 75,
-    "fightHouse": 15,
+    "fightWinner": 85,
+    "fightHouse": 5,
     "fightFund": 10,
     "groupWinner": 80,
     "groupHouse": 20,
     "championWinner": 85,
     "championHouse": 15,
-    "entryFee": 20
+    "entryFee": 0,
+    "houseBankroll": 2300,
+    "initialOdd": 1.75,
+    "houseReserve": 1000
   },
   "bracketSize": 8,
   "fighters": [
     {
       "id": "f1",
-      "name": "Aela, a Caçadora",
+      "name": "GUGUNIKON",
       "isBolg": false
     },
     {
       "id": "f2",
-      "name": "Ragnar Punho de Ferro",
+      "name": "CYLAS WISE",
       "isBolg": false
     },
     {
       "id": "f3",
-      "name": "Sigrun da Neve",
+      "name": "LANDSON",
       "isBolg": false
     },
     {
       "id": "f4",
-      "name": "Hrothgar, o Incansável",
+      "name": "SOMBRA",
       "isBolg": false
     },
     {
       "id": "f5",
-      "name": "Vilkas de Jorrvaskr",
+      "name": "NIP NIP",
       "isBolg": false
     },
     {
       "id": "f6",
-      "name": "Kora Lâmina Rubra",
+      "name": "PEH DOMA' TO",
       "isBolg": false
     },
     {
       "id": "f7",
-      "name": "Bjorna Martelo-Seco",
+      "name": "MAGOMED SHARIPOVIO",
       "isBolg": false
     },
     {
       "id": "f8",
-      "name": "Malacath Filho do Ferro",
+      "name": "MIGO",
       "isBolg": false
     }
   ],
@@ -59,22 +62,64 @@
       "roundIndex": 0,
       "round": "Quartas de final",
       "label": "Luta 1",
-      "a": "f1",
-      "b": "f2",
-      "winner": null,
-      "status": "open",
-      "settlement": null
+      "a": "f3",
+      "b": "f6",
+      "winner": "f3",
+      "status": "closed",
+      "settlement": {
+        "total": 200,
+        "house": 8.977272727272748,
+        "purse": 20,
+        "distributed": 171.02272727272725,
+        "payments": [
+          {
+            "bettor": "TESTE1",
+            "amount": 87.5,
+            "choiceLabel": "LANDSON",
+            "multiplier": 1.75
+          },
+          {
+            "bettor": "TESTE2",
+            "amount": 83.52272727272727,
+            "choiceLabel": "LANDSON",
+            "multiplier": 1.6704545454545454
+          }
+        ],
+        "winnerId": "f3",
+        "at": 1791718237518
+      }
     },
     {
       "id": "r0m1",
       "roundIndex": 0,
       "round": "Quartas de final",
       "label": "Luta 2",
-      "a": "f3",
-      "b": "f4",
-      "winner": null,
-      "status": "open",
-      "settlement": null
+      "a": "f4",
+      "b": "f1",
+      "winner": "f4",
+      "status": "closed",
+      "settlement": {
+        "total": 500,
+        "house": 12.5,
+        "purse": 50,
+        "distributed": 437.5,
+        "payments": [
+          {
+            "bettor": "TESTE1",
+            "amount": 175,
+            "choiceLabel": "SOMBRA",
+            "multiplier": 1.75
+          },
+          {
+            "bettor": "TESTE3",
+            "amount": 262.5,
+            "choiceLabel": "SOMBRA",
+            "multiplier": 1.75
+          }
+        ],
+        "winnerId": "f4",
+        "at": 1791718298541
+      }
     },
     {
       "id": "r0m2",
@@ -82,18 +127,39 @@
       "round": "Quartas de final",
       "label": "Luta 3",
       "a": "f5",
-      "b": "f6",
-      "winner": null,
-      "status": "open",
-      "settlement": null
+      "b": "f7",
+      "winner": "f7",
+      "status": "closed",
+      "settlement": {
+        "total": 900,
+        "house": -213.125,
+        "purse": 90,
+        "distributed": 1023.125,
+        "payments": [
+          {
+            "bettor": "TESTE3",
+            "amount": 507.5,
+            "choiceLabel": "MAGOMED SHARIPOVIO",
+            "multiplier": 2.5375
+          },
+          {
+            "bettor": "TESTE4",
+            "amount": 515.625,
+            "choiceLabel": "MAGOMED SHARIPOVIO",
+            "multiplier": 2.0625
+          }
+        ],
+        "winnerId": "f7",
+        "at": 1791718422997
+      }
     },
     {
       "id": "r0m3",
       "roundIndex": 0,
       "round": "Quartas de final",
       "label": "Luta 4",
-      "a": "f7",
-      "b": "f8",
+      "a": "f8",
+      "b": "f2",
       "winner": null,
       "status": "open",
       "settlement": null
@@ -103,10 +169,10 @@
       "roundIndex": 1,
       "round": "Semifinal",
       "label": "SF 1",
-      "a": null,
-      "b": null,
+      "a": "f3",
+      "b": "f4",
       "winner": null,
-      "status": "waiting",
+      "status": "open",
       "settlement": null
     },
     {
@@ -114,7 +180,7 @@
       "roundIndex": 1,
       "round": "Semifinal",
       "label": "SF 2",
-      "a": null,
+      "a": "f7",
       "b": null,
       "winner": null,
       "status": "waiting",
@@ -132,27 +198,368 @@
       "settlement": null
     }
   ],
-  "bets": [],
-  "payouts": [],
-  "settlements": [],
+  "bets": [
+    {
+      "id": "bet-mv3qq6ry-uvoej",
+      "bettor": "TESTE1",
+      "type": "fight",
+      "choiceId": "f3",
+      "choiceLabel": "LANDSON",
+      "amount": 50,
+      "oddsAtPlacement": 1.75,
+      "potentialPayout": 87.5,
+      "matchId": "r0m0",
+      "at": 1791718152910
+    },
+    {
+      "id": "bet-mv3qq9zh-mu925",
+      "bettor": "TESTE2",
+      "type": "fight",
+      "choiceId": "f3",
+      "choiceLabel": "LANDSON",
+      "amount": 50,
+      "oddsAtPlacement": 1.6704545454545454,
+      "potentialPayout": 83.52272727272727,
+      "matchId": "r0m0",
+      "at": 1791718157069
+    },
+    {
+      "id": "bet-mv3qqlke-b8so0",
+      "bettor": "TESTE3",
+      "type": "fight",
+      "choiceId": "f6",
+      "choiceLabel": "PEH DOMA' TO",
+      "amount": 50,
+      "oddsAtPlacement": 1.9250000000000003,
+      "potentialPayout": 96.25000000000001,
+      "matchId": "r0m0",
+      "at": 1791718172078
+    },
+    {
+      "id": "bet-mv3qqq5i-njrlp",
+      "bettor": "TESTE4",
+      "type": "fight",
+      "choiceId": "f6",
+      "choiceLabel": "PEH DOMA' TO",
+      "amount": 50,
+      "oddsAtPlacement": 1.8295454545454546,
+      "potentialPayout": 91.47727272727273,
+      "matchId": "r0m0",
+      "at": 1791718178022
+    },
+    {
+      "id": "bet-mv3qsn5h-v26av",
+      "bettor": "TESTE1",
+      "type": "fight",
+      "choiceId": "f4",
+      "choiceLabel": "SOMBRA",
+      "amount": 100,
+      "oddsAtPlacement": 1.75,
+      "potentialPayout": 175,
+      "matchId": "r0m1",
+      "at": 1791718267445
+    },
+    {
+      "id": "bet-mv3qst3p-8fg8o",
+      "bettor": "TESTE2",
+      "type": "fight",
+      "choiceId": "f1",
+      "choiceLabel": "GUGUNIKON",
+      "amount": 100,
+      "oddsAtPlacement": 1.9250000000000003,
+      "potentialPayout": 192.50000000000003,
+      "matchId": "r0m1",
+      "at": 1791718275157
+    },
+    {
+      "id": "bet-mv3qsxhp-h5ell",
+      "bettor": "TESTE3",
+      "type": "fight",
+      "choiceId": "f4",
+      "choiceLabel": "SOMBRA",
+      "amount": 150,
+      "oddsAtPlacement": 1.75,
+      "potentialPayout": 262.5,
+      "matchId": "r0m1",
+      "at": 1791718280845
+    },
+    {
+      "id": "bet-mv3qt1yl-zr2p3",
+      "bettor": "TESTE4",
+      "type": "fight",
+      "choiceId": "f1",
+      "choiceLabel": "GUGUNIKON",
+      "amount": 150,
+      "oddsAtPlacement": 1.96875,
+      "potentialPayout": 295.3125,
+      "matchId": "r0m1",
+      "at": 1791718286637
+    },
+    {
+      "id": "bet-mv3qtxnx-htb2w",
+      "bettor": "TESTE1",
+      "type": "fight",
+      "choiceId": "f5",
+      "choiceLabel": "NIP NIP",
+      "amount": 200,
+      "oddsAtPlacement": 1.75,
+      "potentialPayout": 350,
+      "matchId": "r0m2",
+      "at": 1791718327725
+    },
+    {
+      "id": "bet-mv3qu2hq-4izt2",
+      "bettor": "TESTE2",
+      "type": "fight",
+      "choiceId": "f5",
+      "choiceLabel": "NIP NIP",
+      "amount": 250,
+      "oddsAtPlacement": 1.5,
+      "potentialPayout": 375,
+      "matchId": "r0m2",
+      "at": 1791718333982
+    },
+    {
+      "id": "bet-mv3qu6z1-lrcyq",
+      "bettor": "TESTE3",
+      "type": "fight",
+      "choiceId": "f7",
+      "choiceLabel": "MAGOMED SHARIPOVIO",
+      "amount": 200,
+      "oddsAtPlacement": 2.5375,
+      "potentialPayout": 507.5,
+      "matchId": "r0m2",
+      "at": 1791718339789
+    },
+    {
+      "id": "bet-mv3qubfp-mvjwj",
+      "bettor": "TESTE4",
+      "type": "fight",
+      "choiceId": "f7",
+      "choiceLabel": "MAGOMED SHARIPOVIO",
+      "amount": 250,
+      "oddsAtPlacement": 2.0625,
+      "potentialPayout": 515.625,
+      "matchId": "r0m2",
+      "at": 1791718345573
+    }
+  ],
+  "payouts": [
+    {
+      "bettor": "TESTE4",
+      "amount": 515.625,
+      "choiceLabel": "MAGOMED SHARIPOVIO",
+      "multiplier": 2.0625,
+      "matchLabel": "Luta 3",
+      "at": 1791718422997
+    },
+    {
+      "bettor": "TESTE3",
+      "amount": 507.5,
+      "choiceLabel": "MAGOMED SHARIPOVIO",
+      "multiplier": 2.5375,
+      "matchLabel": "Luta 3",
+      "at": 1791718422997
+    },
+    {
+      "bettor": "TESTE3",
+      "amount": 262.5,
+      "choiceLabel": "SOMBRA",
+      "multiplier": 1.75,
+      "matchLabel": "Luta 2",
+      "at": 1791718298541
+    },
+    {
+      "bettor": "TESTE1",
+      "amount": 175,
+      "choiceLabel": "SOMBRA",
+      "multiplier": 1.75,
+      "matchLabel": "Luta 2",
+      "at": 1791718298541
+    },
+    {
+      "bettor": "TESTE2",
+      "amount": 83.52272727272727,
+      "choiceLabel": "LANDSON",
+      "multiplier": 1.6704545454545454,
+      "matchLabel": "Luta 1",
+      "at": 1791718237518
+    },
+    {
+      "bettor": "TESTE1",
+      "amount": 87.5,
+      "choiceLabel": "LANDSON",
+      "multiplier": 1.75,
+      "matchLabel": "Luta 1",
+      "at": 1791718237518
+    }
+  ],
+  "settlements": [
+    {
+      "id": "settlement-mv3qvz6d-mtj29",
+      "matchId": "r0m2",
+      "matchLabel": "Luta 3",
+      "total": 900,
+      "house": -213.125,
+      "purse": 90,
+      "distributed": 1023.125,
+      "at": 1791718422997
+    },
+    {
+      "id": "settlement-mv3qtb59-h7937",
+      "matchId": "r0m1",
+      "matchLabel": "Luta 2",
+      "total": 500,
+      "house": 12.5,
+      "purse": 50,
+      "distributed": 437.5,
+      "at": 1791718298541
+    },
+    {
+      "id": "settlement-mv3qs026-iq01k",
+      "matchId": "r0m0",
+      "matchLabel": "Luta 1",
+      "total": 200,
+      "house": 8.977272727272748,
+      "purse": 20,
+      "distributed": 171.02272727272725,
+      "at": 1791718237518
+    }
+  ],
   "activity": [
     {
-      "id": "activity-mv19jq22-chyg2",
-      "text": "Novo torneio criado; regras e escalação foram mantidas.",
+      "id": "activity-mv3qw8x1-jtspg",
+      "text": "Luta 4 foi sorteada para a transmissão.",
       "tone": "normal",
-      "at": 1791568365482
+      "at": 1791718435621
+    },
+    {
+      "id": "activity-mv3qvz6d-58mon",
+      "text": "MAGOMED SHARIPOVIO venceu Luta 3; -213,13 PO foram para a casa.",
+      "tone": "success",
+      "at": 1791718422997
+    },
+    {
+      "id": "activity-mv3qubfp-m2nte",
+      "text": "TESTE4 registrou 250 PO em MAGOMED SHARIPOVIO.",
+      "tone": "normal",
+      "at": 1791718345573
+    },
+    {
+      "id": "activity-mv3qu6z1-wdqcg",
+      "text": "TESTE3 registrou 200 PO em MAGOMED SHARIPOVIO.",
+      "tone": "normal",
+      "at": 1791718339789
+    },
+    {
+      "id": "activity-mv3qu2hq-lfr2j",
+      "text": "TESTE2 registrou 250 PO em NIP NIP.",
+      "tone": "normal",
+      "at": 1791718333982
+    },
+    {
+      "id": "activity-mv3qtxnx-5x1qj",
+      "text": "TESTE1 registrou 200 PO em NIP NIP.",
+      "tone": "normal",
+      "at": 1791718327725
+    },
+    {
+      "id": "activity-mv3qtmrw-nkmc1",
+      "text": "Luta 3 foi sorteada para a transmissão.",
+      "tone": "normal",
+      "at": 1791718313612
+    },
+    {
+      "id": "activity-mv3qtb59-qapcg",
+      "text": "SOMBRA venceu Luta 2; 12,50 PO foram para a casa.",
+      "tone": "success",
+      "at": 1791718298541
+    },
+    {
+      "id": "activity-mv3qt1yl-p5h8k",
+      "text": "TESTE4 registrou 150 PO em GUGUNIKON.",
+      "tone": "normal",
+      "at": 1791718286637
+    },
+    {
+      "id": "activity-mv3qsxhp-3dm6e",
+      "text": "TESTE3 registrou 150 PO em SOMBRA.",
+      "tone": "normal",
+      "at": 1791718280845
+    },
+    {
+      "id": "activity-mv3qst3p-3vq86",
+      "text": "TESTE2 registrou 100 PO em GUGUNIKON.",
+      "tone": "normal",
+      "at": 1791718275157
+    },
+    {
+      "id": "activity-mv3qsn5h-3cg29",
+      "text": "TESTE1 registrou 100 PO em SOMBRA.",
+      "tone": "normal",
+      "at": 1791718267445
+    },
+    {
+      "id": "activity-mv3qsh4k-fc2tn",
+      "text": "Luta 2 foi sorteada para a transmissão.",
+      "tone": "normal",
+      "at": 1791718259636
+    },
+    {
+      "id": "activity-mv3qs026-o47rp",
+      "text": "LANDSON venceu Luta 1; 8,98 PO foram para a casa.",
+      "tone": "success",
+      "at": 1791718237518
+    },
+    {
+      "id": "activity-mv3qqq5i-6pini",
+      "text": "TESTE4 registrou 50 PO em PEH DOMA' TO.",
+      "tone": "normal",
+      "at": 1791718178022
+    },
+    {
+      "id": "activity-mv3qqlke-6u9db",
+      "text": "TESTE3 registrou 50 PO em PEH DOMA' TO.",
+      "tone": "normal",
+      "at": 1791718172078
+    },
+    {
+      "id": "activity-mv3qq9zh-nkggb",
+      "text": "TESTE2 registrou 50 PO em LANDSON.",
+      "tone": "normal",
+      "at": 1791718157069
+    },
+    {
+      "id": "activity-mv3qq6ry-5zru9",
+      "text": "TESTE1 registrou 50 PO em LANDSON.",
+      "tone": "normal",
+      "at": 1791718152910
+    },
+    {
+      "id": "activity-mv3qpsx1-q6pbp",
+      "text": "Luta 1 foi sorteada para a transmissão.",
+      "tone": "normal",
+      "at": 1791718134949
+    },
+    {
+      "id": "activity-mv3qpqnh-v59fd",
+      "text": "Lutadores embaralhados pelo narrador antes da primeira luta.",
+      "tone": "success",
+      "at": 1791718132013
     }
   ],
   "eventStatus": "open",
   "flow": {
-    "shuffled": false,
-    "currentMatchId": null,
+    "shuffled": true,
+    "currentMatchId": "r0m3",
     "nextMatchId": null,
-    "lastEvent": "idle",
-    "eventNonce": 0,
-    "lastWinnerId": null
+    "lastEvent": "selected",
+    "eventNonce": 8,
+    "lastWinnerId": "f7",
+    "lastRoundIndex": 0,
+    "lastMatchSequence": 4
   },
   "tab": "public",
   "bolg": null,
-  "revision": 19
+  "revision": 600
 }
